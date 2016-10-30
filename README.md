@@ -1,6 +1,6 @@
 # Flexible LSTM SequenceGenerator Wrapper
 
-A simple wrapper to create a SequenceGenerator Machine learning using LSTM Networks in TfLearn.
+A simple wrapper to flexibly create a SequenceGenerator Machine learning using LSTM Networks in TfLearn.
 
 It can be use to generate any text or number sequences just by tuning the parameters.
 
