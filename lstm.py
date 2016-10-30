@@ -3,7 +3,7 @@
 ##########################################
 #
 # lstm.py: Simple parametized python script to train e use an lstm network with tflearn for text generation.
-#          Based on tflearn example code https://github.com/tflearn/tflearn/blob/master/examples/nlp/lstm_generator_cityname.py
+#          Based on tflearn example code https://github.com/tflearn/tflearn/blob/master/examples/nlp/
 #
 # Author: Cosimo Iaia <cosimo.iaia@gmail.com>
 # Date: 26/10/2016
