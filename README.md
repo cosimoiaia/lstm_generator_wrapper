@@ -4,6 +4,10 @@ A simple wrapper to flexibly create a SequenceGenerator Machine learning using L
 
 It can be use to generate any text or number sequences just by tuning the parameters.
 
+i.e. City Name Generation or Shakespeare Scripts Generation from http://tflearn.org/examples/#natural-language-processing
+
+The trained model will be automatically saved each run; batch size, number of epochs and temperature for generations can be passed as commandline parameters, as the number of hidden lstm layers.
+
 ```bash
 usage: lstm.py [-h] --dataset DATASET [--batch_size BATCH_SIZE]
                [--epochs EPOCHS] [--temperature TEMPERATURE]
