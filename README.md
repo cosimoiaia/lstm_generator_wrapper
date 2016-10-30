@@ -4,6 +4,7 @@ A simple wrapper to create a SequenceGenerator Machine learning using LSTM Netwo
 
 It can be use to generate any text or number sequences just by tuning the parameters.
 
+```bash
 usage: lstm.py [-h] --dataset DATASET [--batch_size BATCH_SIZE]
                [--epochs EPOCHS] [--temperature TEMPERATURE]
                [--model_file MODEL_FILE]
@@ -22,3 +23,4 @@ optional arguments:
                         or created
   --hidden_layer_size HIDDEN_LAYER_SIZE
                         Number of hidden lstm layers
+```
