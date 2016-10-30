@@ -37,11 +37,18 @@ def find_maxlenght(path):
     return longest
 
 
+def save_model(model):
+    model.save(FLAGS.model_file)
+
+def load_model(model):
+    model.load(FLAGS.model_file)
+
+
 def main():
 
     path = FLAGS.dataset
 
-    # We avoid using padding and simply calculate the max lenght of our input set.
+    # We avoid using fixed padding and simply calculate the max lenght of our input set.
     maxlen = find_maxlenght(path)
     
     print("MaxLen = ", maxlen)
@@ -50,27 +57,51 @@ def main():
 
     # Here we define our network structure, using common used values for node dimensions and dropout
 
+    # Input Layer
     g = tflearn.input_data(shape=[None, maxlen, len(char_idx)])
-    g = tflearn.lstm(g, 512, return_seq=True)
-    g = tflearn.dropout(g, 0.5)
+
+    # Create our hidden LSTM Layers from parameters
+    for i in range(FLAGS.hidden_layer_size):
+        g = tflearn.lstm(g, 512, return_seq=True)
+        g = tflearn.dropout(g, 0.5)
+
+    
+    # Finally our last lstm layer and a fully_connected with softmax activation for the output
     g = tflearn.lstm(g, 512)
     g = tflearn.dropout(g, 0.5)
     g = tflearn.fully_connected(g, len(char_idx), activation='softmax')
+
+    # Let's not forget our regression!
     g = tflearn.regression(g, optimizer='adam', loss='categorical_crossentropy',
                            learning_rate=0.001)
-    
+   
+    # wrap it up in a sequence generator 
     m = tflearn.SequenceGenerator(g, dictionary=char_idx,seq_maxlen=maxlen,clip_gradients=5.0,
                                   checkpoint_path='model_'+os.path.basename(path))
     
+    if os.path.exists(FLAGS.model_file):
+	# Load our pre-train model from file
+        print("Loading model from file ", FLAGS.model_file)
+        load_model(m)
+
     # Let's train it
-    seed = random_sequence_from_textfile(path, maxlen)
+    print("Training model...")
     m.fit(X, Y, validation_set=0.1, batch_size=FLAGS.batch_size, n_epoch=FLAGS.epochs, run_id=os.path.basename(path))
 
+    # save our results
+    print("Saving trained model to file ", FLAGS.model_file)
+    save_model(m)
 
-    # now we generate predictions according to the set temperature
+    # Generate a test result
+    generate(m)
 
+
+
+# generate predictions according to the set temperature
+def generate(model):
+    seed = random_sequence_from_textfile(path, maxlen)
     print("-- Test with temperature of %f --", FLAGS.temperature)
-    print(m.generate(30, temperature=FLAGS.temperature, seq_seed=seed))
+    print(model.generate(30, temperature=FLAGS.temperature, seq_seed=seed))
 
 
 if __name__ == "__main__":
@@ -79,5 +110,7 @@ if __name__ == "__main__":
     parser.add_argument('--batch_size', type=int, default='128', help='How many string train on at a time')
     parser.add_argument('--epochs', type=int, default='1', help='How many epochs to train')
     parser.add_argument('--temperature', type=float, default=1.0, help='Temperature for generating the predictions')
+    parser.add_argument('--model_file', type=str, default='model.tfl', help='Path to save the model file, will be loaded if present or created')
+    parser.add_argument('--hidden_layer_size', type=int, default=1, help='Number of hidden lstm layers')
     FLAGS = parser.parse_args()
     main()
