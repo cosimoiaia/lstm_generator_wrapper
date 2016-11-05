@@ -49,10 +49,10 @@ def main():
     path = FLAGS.dataset
 
     # We avoid using fixed padding and simply calculate the max lenght of our input set.
-    if FLAGS.lenght < 1:
+    if FLAGS.max_sequence_lenght < 1:
         maxlen = find_maxlenght(path)
     else:
-        maxlen = FLAGS.lenght
+        maxlen = FLAGS.max_sequence_lenght
     
     print("MaxLen = ", maxlen)
     X, Y, char_idx = textfile_to_semi_redundant_sequences(path, seq_maxlen=maxlen, redun_step=3)
