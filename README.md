@@ -15,6 +15,7 @@ usage: lstm.py [-h] --dataset DATASET [--batch_size BATCH_SIZE]
                [--epochs EPOCHS] [--temperature TEMPERATURE]
                [--model_file MODEL_FILE]
                [--hidden_layer_size HIDDEN_LAYER_SIZE]
+               [--max_sequence_lenght MAX_SEQUENCE_LENGHT]
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -29,4 +30,8 @@ optional arguments:
                         or created
   --hidden_layer_size HIDDEN_LAYER_SIZE
                         Number of hidden lstm layers
+  --max_sequence_lenght MAX_SEQUENCE_LENGHT
+                        Max lenght of sequence sample. if 0 is set to the
+                        maximum sequence lenght from dataset (Warning:
+                        requires serious amount of Memory)
 ```
