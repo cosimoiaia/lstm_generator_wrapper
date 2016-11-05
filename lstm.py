@@ -49,7 +49,10 @@ def main():
     path = FLAGS.dataset
 
     # We avoid using fixed padding and simply calculate the max lenght of our input set.
-    maxlen = find_maxlenght(path)
+    if FLAGS.lenght < 1:
+        maxlen = find_maxlenght(path)
+    else:
+        maxlen = FLAGS.lenght
     
     print("MaxLen = ", maxlen)
     X, Y, char_idx = textfile_to_semi_redundant_sequences(path, seq_maxlen=maxlen, redun_step=3)
@@ -112,5 +115,6 @@ if __name__ == "__main__":
     parser.add_argument('--temperature', type=float, default=1.0, help='Temperature for generating the predictions')
     parser.add_argument('--model_file', type=str, default='model.tfl', help='Path to save the model file, will be loaded if present or created')
     parser.add_argument('--hidden_layer_size', type=int, default=1, help='Number of hidden lstm layers')
+    parser.add_argument('--max_sequence_lenght', type=int, default=0, help='Max lenght of sequence sample. if 0 is set to the maximum sequence lenght from dataset (Warning: requires serious amount of Memory)')
     FLAGS = parser.parse_args()
     main()
