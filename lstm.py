@@ -117,7 +117,7 @@ def main():
 # generate predictions according to the set temperature
 def generate(model,maxlen):
     seed = random_sequence_from_textfile(FLAGS.dataset, maxlen)
-    print("Generating Sequence with temperature of %f --", FLAGS.temperature)
+    print("Generating Sequence with temperature of ", FLAGS.temperature)
     print(model.generate(30, temperature=FLAGS.temperature, seq_seed=seed))
 
 
