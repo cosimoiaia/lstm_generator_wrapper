@@ -81,19 +81,21 @@ def main():
     # wrap it up in a sequence generator 
     m = tflearn.SequenceGenerator(g, dictionary=char_idx,seq_maxlen=maxlen,clip_gradients=5.0,
                                   checkpoint_path='model_'+os.path.basename(path))
-    
+    train = True
     if os.path.exists(FLAGS.model_file):
 	# Load our pre-train model from file
         print("Loading model from file ", FLAGS.model_file)
         load_model(m)
+        train = False
 
     # Let's train it
-    print("Training model...")
-    m.fit(X, Y, validation_set=0.1, batch_size=FLAGS.batch_size, n_epoch=FLAGS.epochs, run_id=os.path.basename(path))
+    if train:
+        print("Training model...")
+        m.fit(X, Y, validation_set=0.1, batch_size=FLAGS.batch_size, n_epoch=FLAGS.epochs, run_id=os.path.basename(path))
 
-    # save our results
-    print("Saving trained model to file ", FLAGS.model_file)
-    save_model(m)
+        # save our results
+        print("Saving trained model to file ", FLAGS.model_file)
+        save_model(m)
 
     # Generate a test result
     generate(m,maxlen)
