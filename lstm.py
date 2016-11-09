@@ -100,6 +100,18 @@ def main():
     # Generate a test result
     generate(m,maxlen)
 
+    # Interactive Session:
+    try:
+        import readline
+        temp=1.0
+        while temp > 0.0:
+            temp= float ( raw_input('Insert temperature for generation: '))
+            FLAGS.temperature=temp
+            generate(m,maxlen)
+    except EOFError:
+        print("Bye!")
+        return
+
 
 
 # generate predictions according to the set temperature
