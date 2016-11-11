@@ -65,12 +65,12 @@ def main():
 
     # Create our hidden LSTM Layers from parameters
     for i in range(FLAGS.hidden_layer_size):
-        g = tflearn.lstm(g, 512, return_seq=True)
+        g = tflearn.lstm(g, FLAGS.lstm_node_size, return_seq=True)
         g = tflearn.dropout(g, 0.5)
 
     
     # Finally our last lstm layer and a fully_connected with softmax activation for the output
-    g = tflearn.lstm(g, 512)
+    g = tflearn.lstm(g, FLAGS.lstm_node_size)
     g = tflearn.dropout(g, 0.5)
     g = tflearn.fully_connected(g, len(char_idx), activation='softmax')
 
@@ -129,6 +129,7 @@ if __name__ == "__main__":
     parser.add_argument('--temperature', type=float, default=1.0, help='Temperature for generating the predictions')
     parser.add_argument('--model_file', type=str, default='model.tfl', help='Path to save the model file, will be loaded if present or created')
     parser.add_argument('--hidden_layer_size', type=int, default=1, help='Number of hidden lstm layers')
+    parser.add_argument('--lstm_node_size', type=int, default=256, help='Number of nodes in each lstm layers')
     parser.add_argument('--max_sequence_lenght', type=int, default=0, help='Max lenght of sequence sample. if 0 is set to the maximum sequence lenght from dataset (Warning: requires serious amount of Memory)')
     FLAGS = parser.parse_args()
     main()
